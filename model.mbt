@@ -70,3 +70,36 @@ pub fn stock(id : String, material : String, length : Int, cost : Int, quantity 
   trim_start~ : Int = 0, trim_end~ : Int = 0) -> Stock {
   { id, material, length, cost, quantity, trim_start, trim_end }
 }
+
+///|
+pub extend Demand with @debug.Debug::{to_repr}
+
+///|
+pub extend Stock with @debug.Debug::{to_repr}
+
+///|
+pub extend Problem with @debug.Debug::{to_repr}
+
+///|
+pub extend Pattern with @debug.Debug::{to_repr}
+
+///|
+pub extend Plan with @debug.Debug::{to_repr}
+
+///|
+pub extend Status with @debug.Debug::{to_repr}
+
+///|
+pub extend Limits with @debug.Debug::{to_repr}
+
+///|
+pub extend Demand with Eq::{equal, not_equal}
+
+///|
+pub extend Stock with Eq::{equal, not_equal}
+
+///|
+pub extend Status with Eq::{equal, not_equal}
+
+///|
+pub extend Limits with Eq::{equal, not_equal}
