@@ -7,6 +7,7 @@ pub struct Solution {
   pattern_visits : Int
   pattern_count : Int
   work : Int
+  pruned : Int
 } derive(Debug)
 
 ///|
@@ -15,7 +16,9 @@ pub extend Solution with @debug.Debug::{to_repr}
 ///|
 priv struct Search {
   p : Problem
-  patterns : Array[Pattern]
+  patterns : Array[Array[Pattern]]
+  memo : Map[String, (Int, Int, Int)]
+  mut pruned : Int
   remaining : Array[Int]
   inventory : Array[Int]
   path : Array[Pattern]
@@ -54,7 +57,14 @@ fn search_visit(s : Search, cost : Int, length : Int) -> Unit {
   let bound = residual_bound(s.p, s.remaining, s.inventory)
   if !bound.possible { return }
   if s.best is Some(_) && cost + bound.cost > s.best_cost { return }
-  for a in s.patterns {
+  let key = state_key(s.remaining, s.inventory)
+  let objective = (cost, length, s.path.length())
+  match s.memo.get(key) {
+    Some(previous) => if objective_le(previous, objective) { s.pruned += 1; return }
+    None => ()
+  }
+  if s.memo.length() < 50000 { s.memo[key] = objective }
+  for a in s.patterns[first] {
     if s.work >= s.limit { s.complete = false; return }
     s.work += 1
     if a.counts[first] == 0 || s.inventory[a.stock] == 0 { continue }
@@ -87,7 +97,7 @@ pub fn solve(p : Problem, limits~ : Limits = default_limits()) -> Result[Solutio
   let seed = greedy(p)
   let totals = match seed { Some(plan) => Some(audit(p, plan).unwrap()); None => None }
   let s = Search::{
-    p, patterns: set.entries, remaining: p.demands.map(d => d.quantity),
+    p, patterns: index_patterns(p, set.entries), memo: {}, pruned: 0, remaining: p.demands.map(d => d.quantity),
     inventory: p.stocks.map(stock => stock.quantity), path: [], limit: limits.nodes,
     work: 0, complete: true, best: seed,
     best_cost: match totals { Some(t) => t.cost; None => 0 },
@@ -102,7 +112,7 @@ pub fn solve(p : Problem, limits~ : Limits = default_limits()) -> Result[Solutio
   }
   Ok({ status, plan: s.best, pattern_complete: set.complete,
     search_complete: s.complete, pattern_visits: set.visited,
-    pattern_count: set.entries.length(), work: s.work })
+    pattern_count: set.entries.length(), work: s.work, pruned: s.pruned })
 }
 
 ///|
@@ -127,3 +137,7 @@ pub fn Solution::pattern_count(self : Solution) -> Int { self.pattern_count }
 
 ///|
 pub fn Solution::work(self : Solution) -> Int { self.work }
+
+///|
+pub fn Solution::dominated_states(self : Solution) -> Int { self.pruned }
+
