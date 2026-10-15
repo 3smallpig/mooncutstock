@@ -1,0 +1,2 @@
+import { "3smallpig/mooncutstock" @cutstock, "moonbitlang/core/env", }
+options("is-main": true)
