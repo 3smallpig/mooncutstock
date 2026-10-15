@@ -9,7 +9,7 @@ pub struct PatternSet {
 pub extend PatternSet with @debug.Debug::{to_repr}
 
 ///|
-struct Enumeration {
+priv struct Enumeration {
   entries : Array[Pattern]
   limit : Int
   mut visited : Int
