@@ -10,8 +10,8 @@ pub fn help_text() -> String {
 ///|
 priv struct Options {
   format : String
-  kerf : Int
-  min_remnant : Int
+  kerf : Int32
+  min_remnant : Int32
   limits : Limits
 }
 
@@ -128,7 +128,7 @@ fn execute(
 pub fn run_command(
   command : String,
   input : String,
-  args? : Array[String] = [],
+  args~ : Array[String] = [],
 ) -> Result[String, String] {
   if input.length() > 65536 {
     return Err("command input exceeds 65536 code units")

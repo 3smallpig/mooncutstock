@@ -2,8 +2,8 @@
 /// Each output piece consumes its length plus one kerf, including the final piece.
 pub fn pattern(
   p : Problem,
-  stock_index : Int,
-  counts : Array[Int],
+  stock_index : Int32,
+  counts : Array[Int32],
 ) -> Result[Pattern, String] {
   if stock_index < 0 ||
     stock_index >= p.stocks.length() ||
@@ -49,27 +49,27 @@ fn copy_pattern(p : Pattern) -> Pattern {
 }
 
 ///|
-pub fn Pattern::stock_index(self : Pattern) -> Int {
+pub fn Pattern::stock_index(self : Pattern) -> Int32 {
   self.stock
 }
 
 ///|
-pub fn Pattern::counts(self : Pattern) -> Array[Int] {
+pub fn Pattern::counts(self : Pattern) -> Array[Int32] {
   self.counts.copy()
 }
 
 ///|
-pub fn Pattern::used(self : Pattern) -> Int {
+pub fn Pattern::used(self : Pattern) -> Int32 {
   self.used
 }
 
 ///|
-pub fn Pattern::remaining(self : Pattern) -> Int {
+pub fn Pattern::remaining(self : Pattern) -> Int32 {
   self.remaining
 }
 
 ///|
-pub fn Pattern::pieces(self : Pattern) -> Int {
+pub fn Pattern::pieces(self : Pattern) -> Int32 {
   let mut n = 0
   for count in self.counts {
     n += count
@@ -88,6 +88,6 @@ pub fn Plan::bars(self : Plan) -> Array[Pattern] {
 }
 
 ///|
-pub fn Plan::bar_count(self : Plan) -> Int {
+pub fn Plan::bar_count(self : Plan) -> Int32 {
   self.bars.length()
 }

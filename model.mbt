@@ -3,8 +3,8 @@
 pub(all) struct Demand {
   id : String
   material : String
-  length : Int
-  quantity : Int
+  length : Int32
+  quantity : Int32
 } derive(Debug, Eq)
 
 ///|
@@ -12,11 +12,11 @@ pub(all) struct Demand {
 pub(all) struct Stock {
   id : String
   material : String
-  length : Int
-  cost : Int
-  quantity : Int
-  trim_start : Int
-  trim_end : Int
+  length : Int32
+  cost : Int32
+  quantity : Int32
+  trim_start : Int32
+  trim_end : Int32
 } derive(Debug, Eq)
 
 ///|
@@ -24,16 +24,16 @@ pub(all) struct Stock {
 pub struct Problem {
   demands : Array[Demand]
   stocks : Array[Stock]
-  kerf : Int
-  min_remnant : Int
+  kerf : Int32
+  min_remnant : Int32
 } derive(Debug)
 
 ///|
 pub struct Pattern {
-  stock : Int
-  counts : Array[Int]
-  used : Int
-  remaining : Int
+  stock : Int32
+  counts : Array[Int32]
+  used : Int32
+  remaining : Int32
 } derive(Debug)
 
 ///|
@@ -51,8 +51,8 @@ pub(all) enum Status {
 
 ///|
 pub(all) struct Limits {
-  patterns : Int
-  nodes : Int
+  patterns : Int32
+  nodes : Int32
 } derive(Debug, Eq)
 
 ///|
@@ -64,8 +64,8 @@ pub fn default_limits() -> Limits {
 pub fn demand(
   id : String,
   material : String,
-  length : Int,
-  quantity : Int,
+  length : Int32,
+  quantity : Int32,
 ) -> Demand {
   { id, material, length, quantity, }
 }
@@ -74,11 +74,11 @@ pub fn demand(
 pub fn stock(
   id : String,
   material : String,
-  length : Int,
-  cost : Int,
-  quantity : Int,
-  trim_start? : Int = 0,
-  trim_end? : Int = 0,
+  length : Int32,
+  cost : Int32,
+  quantity : Int32,
+  trim_start~ : Int32 = 0,
+  trim_end~ : Int32 = 0,
 ) -> Stock {
   { id, material, length, cost, quantity, trim_start, trim_end, }
 }

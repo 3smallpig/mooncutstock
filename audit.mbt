@@ -1,14 +1,14 @@
 ///|
 pub(all) struct Totals {
-  cost : Int
-  purchased : Int
-  useful : Int
-  kerf_loss : Int
-  trim_loss : Int
-  reusable : Int
-  scrap : Int
-  bars : Int
-  pieces : Int
+  cost : Int32
+  purchased : Int32
+  useful : Int32
+  kerf_loss : Int32
+  trim_loss : Int32
+  reusable : Int32
+  scrap : Int32
+  bars : Int32
+  pieces : Int32
 } derive(Debug, Eq)
 
 ///|
@@ -96,7 +96,7 @@ pub fn plan_from_patterns(
 }
 
 ///|
-pub fn stock_usage(p : Problem, plan : Plan) -> Result[Array[Int], String] {
+pub fn stock_usage(p : Problem, plan : Plan) -> Result[Array[Int32], String] {
   match audit(p, plan) {
     Err(e) => return Err(e)
     Ok(_) => ()
@@ -109,7 +109,7 @@ pub fn stock_usage(p : Problem, plan : Plan) -> Result[Array[Int], String] {
 }
 
 ///|
-pub fn demand_output(p : Problem, plan : Plan) -> Result[Array[Int], String] {
+pub fn demand_output(p : Problem, plan : Plan) -> Result[Array[Int32], String] {
   match audit(p, plan) {
     Err(e) => return Err(e)
     Ok(_) => ()

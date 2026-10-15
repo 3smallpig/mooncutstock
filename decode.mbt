@@ -65,7 +65,7 @@ fn codec_string(value : Json) -> String raise CodecError {
 }
 
 ///|
-fn codec_int(value : Json) -> Int raise CodecError {
+fn codec_int(value : Json) -> Int32 raise CodecError {
   guard value is Number(x, ..) else { raise Invalid("expected integer") }
   if x != x || x < -1.0 || x > 1000000.0 {
     raise Invalid("integer outside -1..1000000")
@@ -78,7 +78,7 @@ fn codec_int(value : Json) -> Int raise CodecError {
 }
 
 ///|
-fn codec_array(value : Json, limit : Int) -> Array[Json] raise CodecError {
+fn codec_array(value : Json, limit : Int32) -> Array[Json] raise CodecError {
   guard value is Array(items) else { raise Invalid("expected array") }
   if items.length() > limit {
     raise Invalid("array exceeds schema bound")

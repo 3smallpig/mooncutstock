@@ -1,5 +1,5 @@
 ///|
-pub fn with_costs(p : Problem, costs : Array[Int]) -> Result[Problem, String] {
+pub fn with_costs(p : Problem, costs : Array[Int32]) -> Result[Problem, String] {
   if costs.length() != p.stocks.length() {
     return Err("cost vector dimension mismatch")
   }
@@ -10,7 +10,7 @@ pub fn with_costs(p : Problem, costs : Array[Int]) -> Result[Problem, String] {
 ///|
 pub fn with_inventory(
   p : Problem,
-  quantities : Array[Int],
+  quantities : Array[Int32],
 ) -> Result[Problem, String] {
   if quantities.length() != p.stocks.length() {
     return Err("inventory vector dimension mismatch")
@@ -20,16 +20,16 @@ pub fn with_inventory(
 }
 
 ///|
-pub fn with_kerf(p : Problem, kerf : Int) -> Result[Problem, String] {
+pub fn with_kerf(p : Problem, kerf : Int32) -> Result[Problem, String] {
   problem(p.demands, p.stocks, kerf~, min_remnant=p.min_remnant)
 }
 
 ///|
 pub(all) struct Comparison {
-  cost_delta : Int
-  purchased_delta : Int
-  bars_delta : Int
-  ordering : Int
+  cost_delta : Int32
+  purchased_delta : Int32
+  bars_delta : Int32
+  ordering : Int32
 } derive(Debug, Eq)
 
 ///|
@@ -70,11 +70,11 @@ pub fn compare_plans(
 
 ///|
 pub(all) struct KerfScenario {
-  kerf : Int
+  kerf : Int32
   status : Status
-  cost : Int?
-  purchased : Int?
-  search_work : Int
+  cost : Int32?
+  purchased : Int32?
+  search_work : Int32
 } derive(Debug)
 
 ///|
@@ -84,8 +84,8 @@ pub extend KerfScenario with @debug.Debug::{to_repr}
 /// Each scenario uses an independent bounded solve; at most 16 scenarios per call.
 pub fn kerf_scenarios(
   p : Problem,
-  kerfs : Array[Int],
-  limits? : Limits = default_limits(),
+  kerfs : Array[Int32],
+  limits~ : Limits = default_limits(),
 ) -> Result[Array[KerfScenario], String] {
   if kerfs.length() > 16 {
     return Err("at most 16 kerf scenarios")

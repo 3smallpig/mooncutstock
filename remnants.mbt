@@ -1,11 +1,11 @@
 ///|
 pub(all) struct Remnant {
-  source_bar : Int
+  source_bar : Int32
   source_stock : String
   material : String
-  length : Int
-  start : Int
-  end : Int
+  length : Int32
+  start : Int32
+  end : Int32
 } derive(Debug, Eq)
 
 ///|
@@ -78,7 +78,7 @@ pub fn rollover(
   p : Problem,
   plan : Plan,
   next_demands : Array[Demand],
-  keep_inventory? : Bool = true,
+  keep_inventory~ : Bool = true,
 ) -> Result[Problem, String] {
   match audit(p, plan) {
     Err(e) => return Err(e)

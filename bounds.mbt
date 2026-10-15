@@ -1,7 +1,7 @@
 ///|
 pub(all) struct Bound {
-  cost : Int
-  bars : Int
+  cost : Int32
+  bars : Int32
   possible : Bool
 } derive(Debug, Eq)
 
@@ -12,15 +12,15 @@ pub extend Bound with @debug.Debug::{to_repr}
 pub extend Bound with Eq::{equal, not_equal}
 
 ///|
-fn ceil_ratio(numerator : Int64, denominator : Int64) -> Int {
+fn ceil_ratio(numerator : Int64, denominator : Int64) -> Int32 {
   ((numerator + denominator - 1L) / denominator).to_int()
 }
 
 ///|
 fn residual_bound(
   p : Problem,
-  remaining : Array[Int],
-  inventory : Array[Int],
+  remaining : Array[Int32],
+  inventory : Array[Int32],
 ) -> Bound {
   // Each positive residual piece must fit some still available matching stock.
   // This also bounds the rational cost below 128 * maximum stock price.

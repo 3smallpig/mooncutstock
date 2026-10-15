@@ -1,5 +1,5 @@
 ///|
-fn state_key(remaining : Array[Int], inventory : Array[Int]) -> String {
+fn state_key(remaining : Array[Int32], inventory : Array[Int32]) -> String {
   let b = StringBuilder()
   for n in remaining {
     b.write_string(n.to_string())
@@ -14,7 +14,7 @@ fn state_key(remaining : Array[Int], inventory : Array[Int]) -> String {
 }
 
 ///|
-fn objective_le(a : (Int, Int, Int), b : (Int, Int, Int)) -> Bool {
+fn objective_le(a : (Int32, Int32, Int32), b : (Int32, Int32, Int32)) -> Bool {
   a.0 < b.0 ||
   (a.0 == b.0 && a.1 < b.1) ||
   (a.0 == b.0 && a.1 == b.1 && a.2 <= b.2)

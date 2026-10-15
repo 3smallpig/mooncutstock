@@ -13,3 +13,4 @@ done
 moon run cmd/mooncutstock --target "$target" -- demo
 moon run cmd/mooncutstock --target "$target" -- help
 python3 scripts/audit.py
+python3 scripts/check_cli.py "$target"

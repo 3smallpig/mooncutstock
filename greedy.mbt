@@ -1,5 +1,5 @@
 ///|
-fn positive(values : Array[Int]) -> Bool {
+fn positive(values : Array[Int32]) -> Bool {
   for v in values {
     if v > 0 {
       return true
@@ -9,7 +9,7 @@ fn positive(values : Array[Int]) -> Bool {
 }
 
 ///|
-fn demand_order(p : Problem) -> Array[Int] {
+fn demand_order(p : Problem) -> Array[Int32] {
   let order = Array::makei(p.demands.length(), i => i)
   order.sort_by((a, b) => {
     let cmp = p.demands[b].length.compare(p.demands[a].length)
@@ -25,9 +25,9 @@ fn demand_order(p : Problem) -> Array[Int] {
 ///|
 fn greedy_bar(
   p : Problem,
-  si : Int,
-  remaining : Array[Int],
-  order : Array[Int],
+  si : Int32,
+  remaining : Array[Int32],
+  order : Array[Int32],
 ) -> Pattern? {
   let s = p.stocks[si]
   let mut capacity = s.length - s.trim_start - s.trim_end
@@ -47,7 +47,7 @@ fn greedy_bar(
 }
 
 ///|
-fn pattern_useful(p : Problem, a : Pattern) -> Int {
+fn pattern_useful(p : Problem, a : Pattern) -> Int32 {
   let mut n = 0
   for i, count in a.counts {
     n += p.demands[i].length * count

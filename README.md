@@ -124,8 +124,8 @@ bash scripts/verify.sh wasm-gc
 ```
 
 CI checks `wasm-gc`, `wasm`, `js`, `native` on Linux with a digest-pinned official
-MoonBit snapshot. Local development used moon 0.1.20260920 / moonc
-v0.10.14+7d59c7ec9-dev. Cross-target CI is the authoritative clean-runner evidence.
+MoonBit snapshot. Initial development used the 20260920 development toolchain; release formatting
+and validation use moon 0.1.20261012 / moonc v0.10.15+943464bfa. Cross-target CI is the authoritative clean-runner evidence.
 28 test blocks include **160 deterministic independent exhaustive-oracle cases**,
 comparing the full objective and infeasibility; they are not 160 extra test blocks.
 There is no benchmark or formal verification claim.

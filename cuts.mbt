@@ -1,10 +1,10 @@
 ///|
 pub(all) struct Cut {
   demand_id : String
-  ordinal : Int
-  start : Int
-  end : Int
-  kerf_end : Int
+  ordinal : Int32
+  start : Int32
+  end : Int32
+  kerf_end : Int32
 } derive(Debug, Eq)
 
 ///|
@@ -15,13 +15,13 @@ pub extend Cut with Eq::{equal, not_equal}
 
 ///|
 pub(all) struct BarMap {
-  bar : Int
+  bar : Int32
   stock_id : String
-  usable_start : Int
-  usable_end : Int
+  usable_start : Int32
+  usable_end : Int32
   cuts : Array[Cut]
-  remnant_start : Int
-  remnant_end : Int
+  remnant_start : Int32
+  remnant_end : Int32
   reusable : Bool
 } derive(Debug)
 

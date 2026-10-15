@@ -5,10 +5,10 @@ pub struct Solution {
   plan : Plan?
   pattern_complete : Bool
   search_complete : Bool
-  pattern_visits : Int
-  pattern_count : Int
-  work : Int
-  pruned : Int
+  pattern_visits : Int32
+  pattern_count : Int32
+  work : Int32
+  pruned : Int32
 } derive(Debug)
 
 ///|
@@ -18,22 +18,27 @@ pub extend Solution with @debug.Debug::{to_repr}
 priv struct Search {
   p : Problem
   patterns : Array[Array[Pattern]]
-  memo : Map[String, (Int, Int, Int)]
-  mut pruned : Int
-  remaining : Array[Int]
-  inventory : Array[Int]
+  memo : Map[String, (Int32, Int32, Int32)]
+  mut pruned : Int32
+  remaining : Array[Int32]
+  inventory : Array[Int32]
   path : Array[Pattern]
-  limit : Int
-  mut work : Int
+  limit : Int32
+  mut work : Int32
   mut complete : Bool
   mut best : Plan?
-  mut best_cost : Int
-  mut best_length : Int
-  mut best_bars : Int
+  mut best_cost : Int32
+  mut best_length : Int32
+  mut best_bars : Int32
 }
 
 ///|
-fn better_objective(cost : Int, length : Int, bars : Int, s : Search) -> Bool {
+fn better_objective(
+  cost : Int32,
+  length : Int32,
+  bars : Int32,
+  s : Search,
+) -> Bool {
   s.best is None ||
   cost < s.best_cost ||
   (cost == s.best_cost && length < s.best_length) ||
@@ -41,7 +46,7 @@ fn better_objective(cost : Int, length : Int, bars : Int, s : Search) -> Bool {
 }
 
 ///|
-fn search_visit(s : Search, cost : Int, length : Int) -> Unit {
+fn search_visit(s : Search, cost : Int32, length : Int32) -> Unit {
   if !s.complete {
     return
   }
@@ -136,7 +141,7 @@ fn search_visit(s : Search, cost : Int, length : Int) -> Unit {
 /// A budget-limited result is never labeled Optimal or Infeasible.
 pub fn solve(
   p : Problem,
-  limits? : Limits = default_limits(),
+  limits~ : Limits = default_limits(),
 ) -> Result[Solution, String] {
   match validate_limits(limits) {
     Err(e) => return Err(e)
@@ -216,21 +221,21 @@ pub fn Solution::search_complete(self : Solution) -> Bool {
 }
 
 ///|
-pub fn Solution::pattern_visits(self : Solution) -> Int {
+pub fn Solution::pattern_visits(self : Solution) -> Int32 {
   self.pattern_visits
 }
 
 ///|
-pub fn Solution::pattern_count(self : Solution) -> Int {
+pub fn Solution::pattern_count(self : Solution) -> Int32 {
   self.pattern_count
 }
 
 ///|
-pub fn Solution::work(self : Solution) -> Int {
+pub fn Solution::work(self : Solution) -> Int32 {
   self.work
 }
 
 ///|
-pub fn Solution::dominated_states(self : Solution) -> Int {
+pub fn Solution::dominated_states(self : Solution) -> Int32 {
   self.pruned
 }

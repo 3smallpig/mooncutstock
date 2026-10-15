@@ -1,12 +1,12 @@
 ///|
 #cfg(target="js")
-fn cli_prefix() -> Int {
+fn cli_prefix() -> Int32 {
   2
 }
 
 ///|
 #cfg(not(target="js"))
-fn cli_prefix() -> Int {
+fn cli_prefix() -> Int32 {
   1
 }
 

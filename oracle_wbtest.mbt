@@ -1,17 +1,17 @@
 ///|
 priv struct Oracle {
   p : Problem
-  pieces : Array[Int]
-  bins : Array[Int]
-  loads : Array[Int]
-  usage : Array[Int]
-  mut best : (Int, Int, Int)?
+  pieces : Array[Int32]
+  bins : Array[Int32]
+  loads : Array[Int32]
+  usage : Array[Int32]
+  mut best : (Int32, Int32, Int32)?
 }
 
 ///|
 // Independent piece-to-bin exhaustive search. No cutting patterns, price bounds,
 // greedy seed or solver memo tables are used by this oracle.
-fn oracle_visit(o : Oracle, at : Int, cost : Int, length : Int) -> Unit {
+fn oracle_visit(o : Oracle, at : Int32, cost : Int32, length : Int32) -> Unit {
   if at == o.pieces.length() {
     let value = (cost, length, o.bins.length())
     match o.best {
@@ -54,8 +54,8 @@ fn oracle_visit(o : Oracle, at : Int, cost : Int, length : Int) -> Unit {
 }
 
 ///|
-fn oracle(p : Problem) -> (Int, Int, Int)? {
-  let pieces : Array[Int] = []
+fn oracle(p : Problem) -> (Int32, Int32, Int32)? {
+  let pieces : Array[Int32] = []
   for i, d in p.demands {
     for _ in 0..<d.quantity {
       pieces.push(i)

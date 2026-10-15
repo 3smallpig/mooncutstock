@@ -72,7 +72,7 @@ fn csv_rows(text : String) -> Array[Array[String]] raise CodecError {
 }
 
 ///|
-fn csv_int(text : String) -> Int raise CodecError {
+fn csv_int(text : String) -> Int32 raise CodecError {
   if text == "-1" {
     return -1
   }
@@ -95,8 +95,8 @@ fn csv_int(text : String) -> Int raise CodecError {
 ///|
 fn csv_problem(
   text : String,
-  kerf : Int,
-  min_remnant : Int,
+  kerf : Int32,
+  min_remnant : Int32,
 ) -> Problem raise CodecError {
   let rows = csv_rows(text)
   let header = [
@@ -149,8 +149,8 @@ fn csv_problem(
 ///|
 pub fn decode_csv(
   text : String,
-  kerf? : Int = 0,
-  min_remnant? : Int = 1,
+  kerf~ : Int32 = 0,
+  min_remnant~ : Int32 = 1,
 ) -> Result[Problem, String] {
   Ok(csv_problem(text, kerf, min_remnant)) catch {
     Invalid(e) => Err(e)

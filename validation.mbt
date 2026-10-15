@@ -9,8 +9,8 @@ fn safe_label(value : String) -> Bool {
 pub fn problem(
   demands : Array[Demand],
   stocks : Array[Stock],
-  kerf? : Int = 0,
-  min_remnant? : Int = 1,
+  kerf~ : Int32 = 0,
+  min_remnant~ : Int32 = 1,
 ) -> Result[Problem, String] {
   if demands.length() > 12 || stocks.length() > 16 {
     return Err("at most 12 demand types and 16 stock types")
@@ -90,11 +90,11 @@ pub fn Problem::stocks(self : Problem) -> Array[Stock] {
 }
 
 ///|
-pub fn Problem::kerf(self : Problem) -> Int {
+pub fn Problem::kerf(self : Problem) -> Int32 {
   self.kerf
 }
 
 ///|
-pub fn Problem::min_remnant(self : Problem) -> Int {
+pub fn Problem::min_remnant(self : Problem) -> Int32 {
   self.min_remnant
 }

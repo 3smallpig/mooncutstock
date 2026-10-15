@@ -2,7 +2,7 @@
 pub struct PatternSet {
   entries : Array[Pattern]
   complete : Bool
-  visited : Int
+  visited : Int32
 } derive(Debug)
 
 ///|
@@ -11,19 +11,19 @@ pub extend PatternSet with @debug.Debug::{to_repr}
 ///|
 priv struct Enumeration {
   entries : Array[Pattern]
-  limit : Int
-  mut visited : Int
+  limit : Int32
+  mut visited : Int32
   mut complete : Bool
 }
 
 ///|
 fn enumerate_counts(
   p : Problem,
-  si : Int,
-  at : Int,
-  capacity : Int,
-  counts : Array[Int],
-  pieces : Int,
+  si : Int32,
+  at : Int32,
+  capacity : Int32,
+  counts : Array[Int32],
+  pieces : Int32,
   e : Enumeration,
 ) -> Unit {
   if !e.complete {
@@ -71,7 +71,7 @@ fn enumerate_counts(
 /// Enumerates all nonempty feasible demand-count patterns, unless the visit budget ends.
 pub fn enumerate_patterns(
   p : Problem,
-  visit_limit? : Int = 50000,
+  visit_limit~ : Int32 = 50000,
 ) -> Result[PatternSet, String] {
   if visit_limit < 1 || visit_limit > 1000000 {
     return Err("enumeration visit budget must be 1..1000000")
@@ -113,6 +113,6 @@ pub fn PatternSet::complete(self : PatternSet) -> Bool {
 }
 
 ///|
-pub fn PatternSet::visited(self : PatternSet) -> Int {
+pub fn PatternSet::visited(self : PatternSet) -> Int32 {
   self.visited
 }

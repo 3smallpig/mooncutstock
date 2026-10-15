@@ -1,9 +1,9 @@
 ///|
 pub(all) struct PatternGroup {
   stock_id : String
-  counts : Array[Int]
-  repetitions : Int
-  remaining_each : Int
+  counts : Array[Int32]
+  repetitions : Int32
+  remaining_each : Int32
 } derive(Debug)
 
 ///|
