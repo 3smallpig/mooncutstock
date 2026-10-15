@@ -51,7 +51,9 @@ fn search_visit(s : Search, cost : Int, length : Int) -> Unit {
     }
     return
   }
-  if s.best is Some(_) && cost > s.best_cost { return }
+  let bound = residual_bound(s.p, s.remaining, s.inventory)
+  if !bound.possible { return }
+  if s.best is Some(_) && cost + bound.cost > s.best_cost { return }
   for a in s.patterns {
     if s.work >= s.limit { s.complete = false; return }
     s.work += 1
