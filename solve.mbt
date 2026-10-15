@@ -1,5 +1,6 @@
 ///|
 pub struct Solution {
+  source : Problem
   status : Status
   plan : Plan?
   pattern_complete : Bool
@@ -110,7 +111,7 @@ pub fn solve(p : Problem, limits~ : Limits = default_limits()) -> Result[Solutio
     Some(_) => if proven { Optimal } else { FeasibleBudget }
     None => if proven { Infeasible } else { UnknownBudget }
   }
-  Ok({ status, plan: s.best, pattern_complete: set.complete,
+  Ok({ source: p, status, plan: s.best, pattern_complete: set.complete,
     search_complete: s.complete, pattern_visits: set.visited,
     pattern_count: set.entries.length(), work: s.work, pruned: s.pruned })
 }
