@@ -20,7 +20,9 @@ pub extend Totals with Eq::{equal, not_equal}
 ///|
 /// Rebuild every pattern from count vectors, independently of cached geometry.
 pub fn audit(p : Problem, plan : Plan) -> Result[Totals, String] {
-  if plan.bars.length() > 128 { return Err("plan exceeds 128 bars") }
+  if plan.bars.length() > 128 {
+    return Err("plan exceeds 128 bars")
+  }
   let delivered = Array::make(p.demands.length(), 0)
   let inventory = Array::make(p.stocks.length(), 0)
   let mut cost = 0
@@ -53,8 +55,11 @@ pub fn audit(p : Problem, plan : Plan) -> Result[Totals, String] {
       kerf_loss += count * p.kerf
       pieces += count
     }
-    if bar.remaining >= p.min_remnant { reusable += bar.remaining }
-    else { scrap += bar.remaining }
+    if bar.remaining >= p.min_remnant {
+      reusable += bar.remaining
+    } else {
+      scrap += bar.remaining
+    }
   }
   for i, d in p.demands {
     if delivered[i] != d.quantity {
@@ -64,31 +69,56 @@ pub fn audit(p : Problem, plan : Plan) -> Result[Totals, String] {
   if purchased != useful + kerf_loss + trim_loss + reusable + scrap {
     return Err("length conservation failed")
   }
-  Ok({ cost, purchased, useful, kerf_loss, trim_loss, reusable, scrap,
-    bars: plan.bars.length(), pieces })
+  Ok({
+    cost,
+    purchased,
+    useful,
+    kerf_loss,
+    trim_loss,
+    reusable,
+    scrap,
+    bars: plan.bars.length(),
+    pieces,
+  })
 }
 
 ///|
 /// Import a complete plan; rejects overproduction, shortages and inventory violations.
-pub fn plan_from_patterns(p : Problem, bars : Array[Pattern]) -> Result[Plan, String] {
-  let plan = Plan::{ bars: bars.map(copy_pattern) }
-  match audit(p, plan) { Err(e) => Err(e); Ok(_) => Ok(plan) }
+pub fn plan_from_patterns(
+  p : Problem,
+  bars : Array[Pattern],
+) -> Result[Plan, String] {
+  let plan = Plan::{ bars: bars.map(copy_pattern), }
+  match audit(p, plan) {
+    Err(e) => Err(e)
+    Ok(_) => Ok(plan)
+  }
 }
 
 ///|
 pub fn stock_usage(p : Problem, plan : Plan) -> Result[Array[Int], String] {
-  match audit(p, plan) { Err(e) => return Err(e); Ok(_) => () }
+  match audit(p, plan) {
+    Err(e) => return Err(e)
+    Ok(_) => ()
+  }
   let result = Array::make(p.stocks.length(), 0)
-  for bar in plan.bars { result[bar.stock] += 1 }
+  for bar in plan.bars {
+    result[bar.stock] += 1
+  }
   Ok(result)
 }
 
 ///|
 pub fn demand_output(p : Problem, plan : Plan) -> Result[Array[Int], String] {
-  match audit(p, plan) { Err(e) => return Err(e); Ok(_) => () }
+  match audit(p, plan) {
+    Err(e) => return Err(e)
+    Ok(_) => ()
+  }
   let result = Array::make(p.demands.length(), 0)
   for bar in plan.bars {
-    for i, count in bar.counts { result[i] += count }
+    for i, count in bar.counts {
+      result[i] += count
+    }
   }
   Ok(result)
 }

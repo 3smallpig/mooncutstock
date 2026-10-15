@@ -1,6 +1,10 @@
 ///|
 test "pattern geometry, kerf and material" {
-  let p = problem([demand("a", "oak", 3, 2)], [stock("s", "oak", 10, 2, -1, trim_start=1, trim_end=1)], kerf=1).unwrap()
+  let p = problem(
+    [demand("a", "oak", 3, 2)],
+    [stock("s", "oak", 10, 2, -1, trim_start=1, trim_end=1)],
+    kerf=1,
+  ).unwrap()
   let v = [2]
   let a = pattern(p, 0, v).unwrap()
   v[0] = 0

@@ -17,7 +17,9 @@ priv struct Options {
 
 ///|
 fn command_options(args : Array[String]) -> Options raise CodecError {
-  if args.length() > 5 { raise Invalid("at most five command options") }
+  if args.length() > 5 {
+    raise Invalid("at most five command options")
+  }
   let mut format = "json"
   let mut kerf = 0
   let mut min_remnant = 1
@@ -26,11 +28,20 @@ fn command_options(args : Array[String]) -> Options raise CodecError {
   let seen : Map[String, Bool] = Map([])
   for arg in args {
     let pair = arg.split("=").map(v => v.to_owned()).to_array()
-    if pair.length() != 2 { raise Invalid("options must use --key=value") }
-    if seen.contains(pair[0]) { raise Invalid("duplicate command option") }
+    if pair.length() != 2 {
+      raise Invalid("options must use --key=value")
+    }
+    if seen.contains(pair[0]) {
+      raise Invalid("duplicate command option")
+    }
     seen[pair[0]] = true
     match pair[0] {
-      "--format" => { format = pair[1]; if format != "json" && format != "text" { raise Invalid("format must be json or text") } }
+      "--format" => {
+        format = pair[1]
+        if format != "json" && format != "text" {
+          raise Invalid("format must be json or text")
+        }
+      }
       "--kerf" => kerf = csv_int(pair[1])
       "--min-remnant" => min_remnant = csv_int(pair[1])
       "--patterns" => patterns = csv_int(pair[1])
@@ -38,10 +49,15 @@ fn command_options(args : Array[String]) -> Options raise CodecError {
       _ => raise Invalid("unknown command option")
     }
   }
-  let limits = Limits::{ patterns, nodes }
-  match validate_limits(limits) { Ok(_) => (); Err(e) => raise Invalid(e) }
-  if kerf < 0 || min_remnant < 1 { raise Invalid("invalid kerf or remnant threshold") }
-  { format, kerf, min_remnant, limits }
+  let limits = Limits::{ patterns, nodes, }
+  match validate_limits(limits) {
+    Ok(_) => ()
+    Err(e) => raise Invalid(e)
+  }
+  if kerf < 0 || min_remnant < 1 {
+    raise Invalid("invalid kerf or remnant threshold")
+  }
+  { format, kerf, min_remnant, limits, }
 }
 
 ///|
@@ -53,34 +69,74 @@ fn audit_bundle(input : String) -> String raise CodecError {
 }
 
 ///|
-fn execute(command : String, input : String, args : Array[String]) -> String raise CodecError {
-  if command == "help" { return help_text() }
+fn execute(
+  command : String,
+  input : String,
+  args : Array[String],
+) -> String raise CodecError {
+  if command == "help" {
+    return help_text()
+  }
   let options = command_options(args)
   if command == "audit-json" {
-    if args.length() > 0 { raise Invalid("audit-json does not accept options") }
+    if args.length() > 0 {
+      raise Invalid("audit-json does not accept options")
+    }
     return audit_bundle(input)
   }
-  if !["solve-json", "solve-csv", "normalize-json", "normalize-csv"].contains(command) {
+  if !["solve-json", "solve-csv", "normalize-json", "normalize-csv"].contains(
+      command,
+    ) {
     raise Invalid("unknown command")
   }
   let csv = command == "solve-csv" || command == "normalize-csv"
-  if !csv && (args.any(a => a.has_prefix("--kerf=")) || args.any(a => a.has_prefix("--min-remnant="))) {
+  if !csv &&
+    (
+      args.any(a => a.has_prefix("--kerf=")) ||
+      args.any(a => a.has_prefix("--min-remnant="))
+    ) {
     raise Invalid("JSON kerf and min_remnant must come from the document")
   }
-  let p = if csv { csv_problem(input, options.kerf, options.min_remnant) }
-    else { problem_json(parse_json(input)) }
-  if command == "normalize-json" { return encode_problem(p) }
-  if command == "normalize-csv" { return encode_csv(p) }
-  let s = match solve(p, limits=options.limits) { Ok(s) => s; Err(e) => raise Invalid(e) }
-  let text = if options.format == "text" { text_report(p, s) } else { encode_solution(p, s) }
-  match text { Ok(v) => v; Err(e) => raise Invalid(e) }
+  let p = if csv {
+    csv_problem(input, options.kerf, options.min_remnant)
+  } else {
+    problem_json(parse_json(input))
+  }
+  if command == "normalize-json" {
+    return encode_problem(p)
+  }
+  if command == "normalize-csv" {
+    return encode_csv(p)
+  }
+  let s = match solve(p, limits=options.limits) {
+    Ok(s) => s
+    Err(e) => raise Invalid(e)
+  }
+  let text = if options.format == "text" {
+    text_report(p, s)
+  } else {
+    encode_solution(p, s)
+  }
+  match text {
+    Ok(v) => v
+    Err(e) => raise Invalid(e)
+  }
 }
 
 ///|
 /// Pure command boundary for embedding in native, web, CI or editor hosts.
-pub fn run_command(command : String, input : String, args~ : Array[String] = []) -> Result[String, String] {
-  if input.length() > 65536 { return Err("command input exceeds 65536 code units") }
-  if command.length() > 32 || args.any(a => a.length() > 64) { return Err("command arguments too long") }
-  try { Ok(execute(command, input, args)) } catch { Invalid(e) => Err(e) }
+pub fn run_command(
+  command : String,
+  input : String,
+  args? : Array[String] = [],
+) -> Result[String, String] {
+  if input.length() > 65536 {
+    return Err("command input exceeds 65536 code units")
+  }
+  if command.length() > 32 || args.any(a => a.length() > 64) {
+    return Err("command arguments too long")
+  }
+  Ok(execute(command, input, args)) catch {
+    Invalid(e) => Err(e)
+  }
 }
-

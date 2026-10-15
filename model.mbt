@@ -57,18 +57,30 @@ pub(all) struct Limits {
 
 ///|
 pub fn default_limits() -> Limits {
-  { patterns: 50000, nodes: 200000 }
+  { patterns: 50000, nodes: 200000, }
 }
 
 ///|
-pub fn demand(id : String, material : String, length : Int, quantity : Int) -> Demand {
-  { id, material, length, quantity }
+pub fn demand(
+  id : String,
+  material : String,
+  length : Int,
+  quantity : Int,
+) -> Demand {
+  { id, material, length, quantity, }
 }
 
 ///|
-pub fn stock(id : String, material : String, length : Int, cost : Int, quantity : Int,
-  trim_start~ : Int = 0, trim_end~ : Int = 0) -> Stock {
-  { id, material, length, cost, quantity, trim_start, trim_end }
+pub fn stock(
+  id : String,
+  material : String,
+  length : Int,
+  cost : Int,
+  quantity : Int,
+  trim_start? : Int = 0,
+  trim_end? : Int = 0,
+) -> Stock {
+  { id, material, length, cost, quantity, trim_start, trim_end, }
 }
 
 ///|

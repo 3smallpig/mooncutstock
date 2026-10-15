@@ -1,0 +1,280 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "3smallpig/mooncutstock"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn audit(Problem, Plan) -> Result[Totals, String]
+
+pub fn compare_plans(Problem, Plan, Plan) -> Result[Comparison, String]
+
+pub fn cutting_map(Problem, Plan) -> Result[Array[BarMap], String]
+
+pub fn decode_csv(String, kerf? : Int, min_remnant? : Int) -> Result[Problem, String]
+
+pub fn decode_plan(Problem, String) -> Result[Plan, String]
+
+pub fn decode_problem(String) -> Result[Problem, String]
+
+pub fn default_limits() -> Limits
+
+pub fn demand(String, String, Int, Int) -> Demand
+
+pub fn demand_output(Problem, Plan) -> Result[Array[Int], String]
+
+pub fn empty_plan() -> Plan
+
+pub fn encode_csv(Problem) -> String
+
+pub fn encode_plan(Problem, Plan) -> Result[String, String]
+
+pub fn encode_problem(Problem) -> String
+
+pub fn encode_solution(Problem, Solution) -> Result[String, String]
+
+pub fn enumerate_patterns(Problem, visit_limit? : Int) -> Result[PatternSet, String]
+
+pub fn expand_groups(Problem, Array[PatternGroup]) -> Result[Plan, String]
+
+pub fn greedy(Problem) -> Plan?
+
+pub fn group_patterns(Problem, Plan) -> Result[Array[PatternGroup], String]
+
+pub fn help_text() -> String
+
+pub fn kerf_scenarios(Problem, Array[Int], limits? : Limits) -> Result[Array[KerfScenario], String]
+
+pub fn lower_bound(Problem) -> Bound
+
+pub fn pattern(Problem, Int, Array[Int]) -> Result[Pattern, String]
+
+pub fn plan_from_patterns(Problem, Array[Pattern]) -> Result[Plan, String]
+
+pub fn problem(Array[Demand], Array[Stock], kerf? : Int, min_remnant? : Int) -> Result[Problem, String]
+
+pub fn remnant_stocks(Problem, Plan) -> Result[Array[Stock], String]
+
+pub fn remnants(Problem, Plan) -> Result[Array[Remnant], String]
+
+pub fn rollover(Problem, Plan, Array[Demand], keep_inventory? : Bool) -> Result[Problem, String]
+
+pub fn run_command(String, String, args? : Array[String]) -> Result[String, String]
+
+pub fn solve(Problem, limits? : Limits) -> Result[Solution, String]
+
+pub fn status_name(Status) -> String
+
+pub fn stock(String, String, Int, Int, Int, trim_start? : Int, trim_end? : Int) -> Stock
+
+pub fn stock_usage(Problem, Plan) -> Result[Array[Int], String]
+
+pub fn text_report(Problem, Solution) -> Result[String, String]
+
+pub fn validate_limits(Limits) -> Result[Unit, String]
+
+pub fn verify_cutting_map(Problem, Plan, Array[BarMap]) -> Bool
+
+pub fn with_costs(Problem, Array[Int]) -> Result[Problem, String]
+
+pub fn with_inventory(Problem, Array[Int]) -> Result[Problem, String]
+
+pub fn with_kerf(Problem, Int) -> Result[Problem, String]
+
+// Errors
+
+// Types and methods
+pub(all) struct BarMap {
+  bar : Int
+  stock_id : String
+  usable_start : Int
+  usable_end : Int
+  cuts : Array[Cut]
+  remnant_start : Int
+  remnant_end : Int
+  reusable : Bool
+} derive(@debug.Debug)
+pub fn BarMap::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Bound {
+  cost : Int
+  bars : Int
+  possible : Bool
+} derive(Eq, @debug.Debug)
+pub fn Bound::equal(Self, Self) -> Bool
+pub fn Bound::not_equal(Self, Self) -> Bool
+pub fn Bound::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Comparison {
+  cost_delta : Int
+  purchased_delta : Int
+  bars_delta : Int
+  ordering : Int
+} derive(Eq, @debug.Debug)
+pub fn Comparison::equal(Self, Self) -> Bool
+pub fn Comparison::not_equal(Self, Self) -> Bool
+pub fn Comparison::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Cut {
+  demand_id : String
+  ordinal : Int
+  start : Int
+  end : Int
+  kerf_end : Int
+} derive(Eq, @debug.Debug)
+pub fn Cut::equal(Self, Self) -> Bool
+pub fn Cut::not_equal(Self, Self) -> Bool
+pub fn Cut::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Demand {
+  id : String
+  material : String
+  length : Int
+  quantity : Int
+} derive(Eq, @debug.Debug)
+pub fn Demand::equal(Self, Self) -> Bool
+pub fn Demand::not_equal(Self, Self) -> Bool
+pub fn Demand::to_repr(Self) -> @debug.Repr
+
+pub(all) struct KerfScenario {
+  kerf : Int
+  status : Status
+  cost : Int?
+  purchased : Int?
+  search_work : Int
+} derive(@debug.Debug)
+pub fn KerfScenario::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Limits {
+  patterns : Int
+  nodes : Int
+} derive(Eq, @debug.Debug)
+pub fn Limits::equal(Self, Self) -> Bool
+pub fn Limits::not_equal(Self, Self) -> Bool
+pub fn Limits::to_repr(Self) -> @debug.Repr
+
+pub struct Pattern {
+  stock : Int
+  counts : Array[Int]
+  used : Int
+  remaining : Int
+} derive(@debug.Debug)
+pub fn Pattern::counts(Self) -> Array[Int]
+pub fn Pattern::pieces(Self) -> Int
+pub fn Pattern::remaining(Self) -> Int
+pub fn Pattern::stock_index(Self) -> Int
+pub fn Pattern::to_repr(Self) -> @debug.Repr
+pub fn Pattern::used(Self) -> Int
+
+pub(all) struct PatternGroup {
+  stock_id : String
+  counts : Array[Int]
+  repetitions : Int
+  remaining_each : Int
+} derive(@debug.Debug)
+pub fn PatternGroup::to_repr(Self) -> @debug.Repr
+
+pub struct PatternSet {
+  entries : Array[Pattern]
+  complete : Bool
+  visited : Int
+} derive(@debug.Debug)
+pub fn PatternSet::complete(Self) -> Bool
+pub fn PatternSet::patterns(Self) -> Array[Pattern]
+pub fn PatternSet::to_repr(Self) -> @debug.Repr
+pub fn PatternSet::visited(Self) -> Int
+
+pub struct Plan {
+  bars : Array[Pattern]
+} derive(@debug.Debug)
+pub fn Plan::bar_count(Self) -> Int
+pub fn Plan::bars(Self) -> Array[Pattern]
+pub fn Plan::to_repr(Self) -> @debug.Repr
+
+pub struct Problem {
+  demands : Array[Demand]
+  stocks : Array[Stock]
+  kerf : Int
+  min_remnant : Int
+} derive(@debug.Debug)
+pub fn Problem::demands(Self) -> Array[Demand]
+pub fn Problem::kerf(Self) -> Int
+pub fn Problem::min_remnant(Self) -> Int
+pub fn Problem::stocks(Self) -> Array[Stock]
+pub fn Problem::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Remnant {
+  source_bar : Int
+  source_stock : String
+  material : String
+  length : Int
+  start : Int
+  end : Int
+} derive(Eq, @debug.Debug)
+pub fn Remnant::equal(Self, Self) -> Bool
+pub fn Remnant::not_equal(Self, Self) -> Bool
+pub fn Remnant::to_repr(Self) -> @debug.Repr
+
+pub struct Solution {
+  source : Problem
+  status : Status
+  plan : Plan?
+  pattern_complete : Bool
+  search_complete : Bool
+  pattern_visits : Int
+  pattern_count : Int
+  work : Int
+  pruned : Int
+} derive(@debug.Debug)
+pub fn Solution::dominated_states(Self) -> Int
+pub fn Solution::pattern_complete(Self) -> Bool
+pub fn Solution::pattern_count(Self) -> Int
+pub fn Solution::pattern_visits(Self) -> Int
+pub fn Solution::plan(Self) -> Plan?
+pub fn Solution::search_complete(Self) -> Bool
+pub fn Solution::status(Self) -> Status
+pub fn Solution::to_repr(Self) -> @debug.Repr
+pub fn Solution::work(Self) -> Int
+
+pub(all) enum Status {
+  Optimal
+  FeasibleBudget
+  Infeasible
+  UnknownBudget
+} derive(Eq, @debug.Debug)
+pub fn Status::equal(Self, Self) -> Bool
+pub fn Status::not_equal(Self, Self) -> Bool
+pub fn Status::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Stock {
+  id : String
+  material : String
+  length : Int
+  cost : Int
+  quantity : Int
+  trim_start : Int
+  trim_end : Int
+} derive(Eq, @debug.Debug)
+pub fn Stock::equal(Self, Self) -> Bool
+pub fn Stock::not_equal(Self, Self) -> Bool
+pub fn Stock::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Totals {
+  cost : Int
+  purchased : Int
+  useful : Int
+  kerf_loss : Int
+  trim_loss : Int
+  reusable : Int
+  scrap : Int
+  bars : Int
+  pieces : Int
+} derive(Eq, @debug.Debug)
+pub fn Totals::equal(Self, Self) -> Bool
+pub fn Totals::not_equal(Self, Self) -> Bool
+pub fn Totals::to_repr(Self) -> @debug.Repr
+
+// Type aliases
+
+// Traits

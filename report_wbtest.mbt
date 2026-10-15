@@ -8,6 +8,6 @@ test "reports bind provenance and retain explicit budget status" {
   let other = problem(p.demands(), [stock("s", "m", 6, 9, -1)]).unwrap()
   assert_true(encode_solution(other, s) is Err(_))
   assert_true(text_report(other, s) is Err(_))
-  let limited = solve(p, limits={patterns: 1, nodes: 1}).unwrap()
+  let limited = solve(p, limits={ patterns: 1, nodes: 1, }).unwrap()
   assert_true(encode_solution(p, limited).unwrap().contains("feasible-budget"))
 }
