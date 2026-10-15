@@ -56,7 +56,7 @@ pub fn rollover(p : Problem, plan : Plan, next_demands : Array[Demand],
   keep_inventory~ : Bool = true) -> Result[Problem, String] {
   match audit(p, plan) { Err(e) => return Err(e); Ok(_) => () }
   let result : Array[Stock] = []
-  let usage = stock_usage(p, plan)
+  let usage = stock_usage(p, plan).unwrap()
   if keep_inventory {
     for i, s in p.stocks {
       let quantity = if s.quantity < 0 { -1 } else { s.quantity - usage[i] }

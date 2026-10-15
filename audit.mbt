@@ -76,17 +76,19 @@ pub fn plan_from_patterns(p : Problem, bars : Array[Pattern]) -> Result[Plan, St
 }
 
 ///|
-pub fn stock_usage(p : Problem, plan : Plan) -> Array[Int] {
+pub fn stock_usage(p : Problem, plan : Plan) -> Result[Array[Int], String] {
+  match audit(p, plan) { Err(e) => return Err(e); Ok(_) => () }
   let result = Array::make(p.stocks.length(), 0)
   for bar in plan.bars { result[bar.stock] += 1 }
-  result
+  Ok(result)
 }
 
 ///|
-pub fn demand_output(p : Problem, plan : Plan) -> Array[Int] {
+pub fn demand_output(p : Problem, plan : Plan) -> Result[Array[Int], String] {
+  match audit(p, plan) { Err(e) => return Err(e); Ok(_) => () }
   let result = Array::make(p.demands.length(), 0)
   for bar in plan.bars {
     for i, count in bar.counts { result[i] += count }
   }
-  result
+  Ok(result)
 }

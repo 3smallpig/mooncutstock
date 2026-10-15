@@ -18,6 +18,20 @@ fn ceil_ratio(numerator : Int64, denominator : Int64) -> Int {
 
 ///|
 fn residual_bound(p : Problem, remaining : Array[Int], inventory : Array[Int]) -> Bound {
+  // Each positive residual piece must fit some still available matching stock.
+  // This also bounds the rational cost below 128 * maximum stock price.
+  for i, d in p.demands {
+    if remaining[i] == 0 { continue }
+    let mut fits = false
+    for si, s in p.stocks {
+      if s.material == d.material && inventory[si] != 0 &&
+        s.length - s.trim_start - s.trim_end >= d.length + p.kerf {
+        fits = true
+        break
+      }
+    }
+    if !fits { return { cost: 0, bars: 0, possible: false } }
+  }
   let mut cost = 0
   let mut bars = 0
   for i, d in p.demands {

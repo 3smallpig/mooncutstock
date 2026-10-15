@@ -1,4 +1,10 @@
 ///|
+fn safe_label(value : String) -> Bool {
+  value.length() > 0 && value.length() <= 128 &&
+  !value.iter().any(c => c.to_int() < 32 || c.to_int() == 127)
+}
+
+///|
 pub fn problem(demands : Array[Demand], stocks : Array[Stock],
   kerf~ : Int = 0, min_remnant~ : Int = 1) -> Result[Problem, String] {
   if demands.length() > 12 || stocks.length() > 16 {
@@ -9,8 +15,8 @@ pub fn problem(demands : Array[Demand], stocks : Array[Stock],
   }
   let mut pieces = 0
   for i, d in demands {
-    if d.id.length() == 0 || d.id.length() > 128 || d.material.length() == 0 || d.material.length() > 128 {
-      return Err("demand id and material must have 1..128 code units")
+    if !safe_label(d.id) || !safe_label(d.material) {
+      return Err("demand id and material must have 1..128 code units without ASCII controls")
     }
     if d.length < 1 || d.length > 1000000 || d.quantity < 0 || d.quantity > 128 {
       return Err("demand length 1..1000000 and quantity 0..128 required")
@@ -22,8 +28,8 @@ pub fn problem(demands : Array[Demand], stocks : Array[Stock],
   }
   if pieces > 128 { return Err("at most 128 requested pieces") }
   for i, s in stocks {
-    if s.id.length() == 0 || s.id.length() > 128 || s.material.length() == 0 || s.material.length() > 128 {
-      return Err("stock id and material must have 1..128 code units")
+    if !safe_label(s.id) || !safe_label(s.material) {
+      return Err("stock id and material must have 1..128 code units without ASCII controls")
     }
     if s.length < 1 || s.length > 1000000 || s.cost < 0 || s.cost > 1000000 || s.quantity < -1 || s.quantity > 128 {
       return Err("stock length/cost/inventory outside bounded domain")
