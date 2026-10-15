@@ -1,0 +1,25 @@
+name: Verify MoonCutStock
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portable:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [wasm-gc, wasm, js, native]
+    env:
+      MOON_HOME: ${{ github.workspace }}/../mooncutstock-toolchain
+      CC: gcc
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install digest-pinned official snapshot
+        run: bash scripts/install-ci-toolchain.sh
+      - name: Check test build and actual workflows
+        run: |
+          export PATH="$MOON_HOME/bin:$PATH"
+          bash scripts/verify.sh '${{ matrix.target }}'
