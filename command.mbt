@@ -1,6 +1,6 @@
 ///|
 pub fn help_text() -> String {
-  "MoonCutStock 0.1.0\n" +
+  "MoonCutStock 0.1.1\n" +
   "Commands: solve-json, solve-csv, normalize-json, normalize-csv, audit-json\n" +
   "Options: --format=json|text --kerf=N --min-remnant=N --patterns=N --nodes=N\n" +
   "CSV kerf/remnant metadata comes from options. audit-json takes {problem,plan}.\n" +

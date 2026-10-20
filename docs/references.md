@@ -7,14 +7,14 @@ redistributing the toolchain itself; it is not shipped in this repository.
 
 Conceptual references (not copied implementations):
 
-* Gilmore and Gomory, °∞A Linear Programming Approach to the Cutting-Stock
-  Problem°±, Operations Research 9(6), 1961, DOI 10.1287/opre.9.6.849. Standard
+* Gilmore and Gomory, ‚ÄúA Linear Programming Approach to the Cutting-Stock
+  Problem‚Äù, Operations Research 9(6), 1961, DOI 10.1287/opre.9.6.849. Standard
   pattern-based cutting-stock background. This release does **not** implement
   their LP/column-generation algorithm.
 * SCIP Optimization Suite cutting-stock example:
-  https://scipopt.org/doc/html/PROBLEM__DESC.php °™ reference class of mature
+  https://scipopt.org/doc/html/PROBLEM__DESC.php ‚Äî reference class of mature
   optimization systems, not an implemented dependency or performance baseline.
-* MoonBit documentation: https://docs.moonbitlang.com/ °™ language/toolchain.
+* MoonBit documentation: https://docs.moonbitlang.com/ ‚Äî language/toolchain.
 
 Neighboring MoonBit projects inspected for semantic duplication are listed in
 `competition/duplicate-check.md`. They contributed no source code to this module.

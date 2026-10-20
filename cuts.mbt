@@ -70,7 +70,8 @@ pub fn cutting_map(p : Problem, plan : Plan) -> Result[Array[BarMap], String] {
 }
 
 ///|
-/// Verify exported coordinates without trusting the planner's interval arithmetic.
+/// Compare exported coordinates with a regenerated map of the audited plan.
+/// This consistency check shares cutting_map arithmetic; it is not an independent oracle.
 pub fn verify_cutting_map(
   p : Problem,
   plan : Plan,

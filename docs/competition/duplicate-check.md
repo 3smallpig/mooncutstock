@@ -1,4 +1,4 @@
-# Bounded semantic duplication review °™ 2026-10-15
+# Bounded semantic duplication review ‚Äî 2026-10-15
 
 ## Decision and capability fingerprint
 
@@ -9,7 +9,7 @@ rollover and interchange**. It is not a renamed general packing wrapper. Standar
 algorithms are used; no algorithmic novelty or ecosystem-wide uniqueness is claimed.
 
 Three candidates were compared before implementation. Scores below are selection
-judgments on a 1®C5 scale, not benchmark measurements. Duplication is a veto even
+judgments on a 1‚Äì5 scale, not benchmark measurements. Duplication is a veto even
 when implementation value is high.
 
 | Candidate | Reuse breadth | Gap clarity | Feasible scope | Verifiable quality | Decision |
@@ -66,5 +66,16 @@ exercise three downstream workflows. This is not an existing solver port or a
 wrapper around neighboring packages, and no inspected source was copied.
 
 The bounded conclusion is **no direct same-scope implementation identified in the
-examined evidence**, not °∞first°±, °∞only°± or a guarantee against later discoveries.
+examined evidence**, not ‚Äúfirst‚Äù, ‚Äúonly‚Äù or a guarantee against later discoveries.
 The selection must be reconsidered if direct matching prior work is reported.
+
+## Patch-release recheck ‚Äî 2026-10-20
+
+The patch does not broaden the capability fingerprint. Repeated MoonCakes searches
+(`cutting`, `cutting-stock`, `kerf`, `packing`, `bin-packing`, limit 100), GitHub
+code searches and a full current 167-section registry review did not identify a
+new direct same-scope replacement. Closest published neighbors remain the
+constraint, rectangle-packing and generic optimization projects above. The local
+acceptance evidence additionally examines the exact published constraint, rectloom
+and moon-certified source/tests, plus GitHub snapshots of kagura/geometry packing.
+This is a bounded search/source comparison, not an official duplication decision.

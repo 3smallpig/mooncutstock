@@ -2,7 +2,10 @@
 import json, subprocess, sys
 
 target = sys.argv[1] if len(sys.argv) > 1 else "wasm-gc"
+calls = 0
 def run(command, document, *options, ok=True):
+    global calls
+    calls += 1
     p = subprocess.run(["moon", "run", "cmd/mooncutstock", "--target", target,
                         "--", command, document, *options], capture_output=True, text=True, encoding="utf-8")
     assert (p.returncode == 0) == ok, (command, p.returncode, p.stdout, p.stderr)
@@ -26,4 +29,8 @@ assert json.loads(run("solve-json", document, "--patterns=1", "--nodes=1"))["sta
 run("solve-json", "{}", ok=False)
 run("solve-json", document, "--nodes=0", ok=False)
 run("solve-json", document, "--kerf=0", ok=False)
-print("9 actual CLI workflows passed:", target)
+# Exact decimal checks must also hold at the real executable boundary.
+for invalid in ("1.0000000000000001", "1e-400"):
+    run("normalize-json", document.replace('"kerf": 2', '"kerf": ' + invalid), ok=False)
+assert json.loads(run("normalize-json", document.replace('"kerf": 2', '"kerf": 200e-2'))) == problem
+print(calls, "actual CLI invocations passed:", target)
