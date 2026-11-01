@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2 — 2026-11-01
+
+- Pin the official moonc 0.10.18 compiler and matching core with SHA-256 and ETag checks to satisfy the acceptance minimum of 0.10.16.
+- Regenerate the public interface with the compiler's canonical Int32 spelling; integer semantics and v1 schemas remain unchanged.
+- Revalidate all four targets, public CLI workflows and independent optimization/JSON/CSV cases on the new toolchain.
+
+
 ## 0.1.1 — 2026-10-20
 
 * Validate JSON decimal integers from source digits before Double conversion; reject

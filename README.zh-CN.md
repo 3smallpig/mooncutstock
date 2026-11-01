@@ -2,10 +2,10 @@
 
 [English](README.md) | 简体中文
 
-纯 MoonBit 的**异规格一维下料与采购规划库**，模块 `3smallpig/mooncutstock@0.1.1`，MIT 许可。
+纯 MoonBit 的**异规格一维下料与采购规划库**，模块 `3smallpig/mooncutstock@0.1.2`，MIT 许可。
 将不同材料、长度、价格及可用数量的原料与需求组合，输出可审计方案、半开区间切割坐标、库存用量及可复用余料；不依赖第三方求解器。
 
-> 0.1.1 修复 JSON 小数经浮点舍入后被误判为整数的问题，补齐中文指南，并将 CI 固定到官方工具链版本归档；兼容既有 API 和 v1 格式。详见 [变更记录](CHANGELOG.md)。
+> 0.1.2 将 CI 固定到官方 moonc 0.10.18，满足验收要求 moonc ≥ 0.10.16；保留精确 JSON 整数校验，兼容既有 API 和 v1 格式。详见 [变更记录](CHANGELOG.md)。
 
 ## 用途、已实现能力与非目标
 
@@ -18,12 +18,12 @@
 
 ## 环境与安装
 
-发布工具链为 `moon 0.1.20261012`、`moonc v0.10.15+943464bfa`。目标为 `wasm-gc`、`wasm`、`js`、`native`；JS 运行需要 Node.js，native 构建/运行需要兼容 C 工具链，Windows 需要 MSVC C++ Build Tools 及 Windows SDK。本次验收的 native 执行环境为 WSL Ubuntu 24.04 / GCC 13.3，Windows MSVC 环境未执行；不将 Linux 结果冒称 Windows 原生验证。
+发布工具链为 `moon 0.1.20261028`、`moonc v0.10.18+6c83a7f62`。目标为 `wasm-gc`、`wasm`、`js`、`native`；JS 运行需要 Node.js，native 构建/运行需要兼容 C 工具链，Windows 需要 MSVC C++ Build Tools 及 Windows SDK。本次验收的 native 执行环境为 WSL Ubuntu 24.04 / GCC 13.3，Windows MSVC 环境未执行；不将 Linux 结果冒称 Windows 原生验证。
 
 ```sh
 moon new shop
 cd shop
-moon add 3smallpig/mooncutstock@0.1.1
+moon add 3smallpig/mooncutstock@0.1.2
 ```
 
 在示例包的 `moon.pkg` 中配置导入（可使用项目自带 `cmd/main` 包）：
@@ -41,7 +41,7 @@ pkgtype(kind: "executable")
 name = "local/cutstock-consumer"
 version = "0.1.0"
 import {
-  "3smallpig/mooncutstock@0.1.1",
+  "3smallpig/mooncutstock@0.1.2",
 }
 ```
 

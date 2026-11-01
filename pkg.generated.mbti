@@ -12,7 +12,7 @@ pub fn compare_plans(Problem, Plan, Plan) -> Result[Comparison, String]
 
 pub fn cutting_map(Problem, Plan) -> Result[Array[BarMap], String]
 
-pub fn decode_csv(String, kerf? : Int, min_remnant? : Int) -> Result[Problem, String]
+pub fn decode_csv(String, kerf? : Int32, min_remnant? : Int32) -> Result[Problem, String]
 
 pub fn decode_plan(Problem, String) -> Result[Plan, String]
 
@@ -20,9 +20,9 @@ pub fn decode_problem(String) -> Result[Problem, String]
 
 pub fn default_limits() -> Limits
 
-pub fn demand(String, String, Int, Int) -> Demand
+pub fn demand(String, String, Int32, Int32) -> Demand
 
-pub fn demand_output(Problem, Plan) -> Result[Array[Int], String]
+pub fn demand_output(Problem, Plan) -> Result[Array[Int32], String]
 
 pub fn empty_plan() -> Plan
 
@@ -34,7 +34,7 @@ pub fn encode_problem(Problem) -> String
 
 pub fn encode_solution(Problem, Solution) -> Result[String, String]
 
-pub fn enumerate_patterns(Problem, visit_limit? : Int) -> Result[PatternSet, String]
+pub fn enumerate_patterns(Problem, visit_limit? : Int32) -> Result[PatternSet, String]
 
 pub fn expand_groups(Problem, Array[PatternGroup]) -> Result[Plan, String]
 
@@ -44,15 +44,15 @@ pub fn group_patterns(Problem, Plan) -> Result[Array[PatternGroup], String]
 
 pub fn help_text() -> String
 
-pub fn kerf_scenarios(Problem, Array[Int], limits? : Limits) -> Result[Array[KerfScenario], String]
+pub fn kerf_scenarios(Problem, Array[Int32], limits? : Limits) -> Result[Array[KerfScenario], String]
 
 pub fn lower_bound(Problem) -> Bound
 
-pub fn pattern(Problem, Int, Array[Int]) -> Result[Pattern, String]
+pub fn pattern(Problem, Int32, Array[Int32]) -> Result[Pattern, String]
 
 pub fn plan_from_patterns(Problem, Array[Pattern]) -> Result[Plan, String]
 
-pub fn problem(Array[Demand], Array[Stock], kerf? : Int, min_remnant? : Int) -> Result[Problem, String]
+pub fn problem(Array[Demand], Array[Stock], kerf? : Int32, min_remnant? : Int32) -> Result[Problem, String]
 
 pub fn remnant_stocks(Problem, Plan) -> Result[Array[Stock], String]
 
@@ -66,9 +66,9 @@ pub fn solve(Problem, limits? : Limits) -> Result[Solution, String]
 
 pub fn status_name(Status) -> String
 
-pub fn stock(String, String, Int, Int, Int, trim_start? : Int, trim_end? : Int) -> Stock
+pub fn stock(String, String, Int32, Int32, Int32, trim_start? : Int32, trim_end? : Int32) -> Stock
 
-pub fn stock_usage(Problem, Plan) -> Result[Array[Int], String]
+pub fn stock_usage(Problem, Plan) -> Result[Array[Int32], String]
 
 pub fn text_report(Problem, Solution) -> Result[String, String]
 
@@ -76,30 +76,30 @@ pub fn validate_limits(Limits) -> Result[Unit, String]
 
 pub fn verify_cutting_map(Problem, Plan, Array[BarMap]) -> Bool
 
-pub fn with_costs(Problem, Array[Int]) -> Result[Problem, String]
+pub fn with_costs(Problem, Array[Int32]) -> Result[Problem, String]
 
-pub fn with_inventory(Problem, Array[Int]) -> Result[Problem, String]
+pub fn with_inventory(Problem, Array[Int32]) -> Result[Problem, String]
 
-pub fn with_kerf(Problem, Int) -> Result[Problem, String]
+pub fn with_kerf(Problem, Int32) -> Result[Problem, String]
 
 // Errors
 
 // Types and methods
 pub(all) struct BarMap {
-  bar : Int
+  bar : Int32
   stock_id : String
-  usable_start : Int
-  usable_end : Int
+  usable_start : Int32
+  usable_end : Int32
   cuts : Array[Cut]
-  remnant_start : Int
-  remnant_end : Int
+  remnant_start : Int32
+  remnant_end : Int32
   reusable : Bool
 } derive(@debug.Debug)
 pub fn BarMap::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Bound {
-  cost : Int
-  bars : Int
+  cost : Int32
+  bars : Int32
   possible : Bool
 } derive(Eq, @debug.Debug)
 pub fn Bound::equal(Self, Self) -> Bool
@@ -107,10 +107,10 @@ pub fn Bound::not_equal(Self, Self) -> Bool
 pub fn Bound::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Comparison {
-  cost_delta : Int
-  purchased_delta : Int
-  bars_delta : Int
-  ordering : Int
+  cost_delta : Int32
+  purchased_delta : Int32
+  bars_delta : Int32
+  ordering : Int32
 } derive(Eq, @debug.Debug)
 pub fn Comparison::equal(Self, Self) -> Bool
 pub fn Comparison::not_equal(Self, Self) -> Bool
@@ -118,10 +118,10 @@ pub fn Comparison::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Cut {
   demand_id : String
-  ordinal : Int
-  start : Int
-  end : Int
-  kerf_end : Int
+  ordinal : Int32
+  start : Int32
+  end : Int32
+  kerf_end : Int32
 } derive(Eq, @debug.Debug)
 pub fn Cut::equal(Self, Self) -> Bool
 pub fn Cut::not_equal(Self, Self) -> Bool
@@ -130,87 +130,87 @@ pub fn Cut::to_repr(Self) -> @debug.Repr
 pub(all) struct Demand {
   id : String
   material : String
-  length : Int
-  quantity : Int
+  length : Int32
+  quantity : Int32
 } derive(Eq, @debug.Debug)
 pub fn Demand::equal(Self, Self) -> Bool
 pub fn Demand::not_equal(Self, Self) -> Bool
 pub fn Demand::to_repr(Self) -> @debug.Repr
 
 pub(all) struct KerfScenario {
-  kerf : Int
+  kerf : Int32
   status : Status
-  cost : Int?
-  purchased : Int?
-  search_work : Int
+  cost : Int32?
+  purchased : Int32?
+  search_work : Int32
 } derive(@debug.Debug)
 pub fn KerfScenario::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Limits {
-  patterns : Int
-  nodes : Int
+  patterns : Int32
+  nodes : Int32
 } derive(Eq, @debug.Debug)
 pub fn Limits::equal(Self, Self) -> Bool
 pub fn Limits::not_equal(Self, Self) -> Bool
 pub fn Limits::to_repr(Self) -> @debug.Repr
 
 pub struct Pattern {
-  stock : Int
-  counts : Array[Int]
-  used : Int
-  remaining : Int
+  stock : Int32
+  counts : Array[Int32]
+  used : Int32
+  remaining : Int32
 } derive(@debug.Debug)
-pub fn Pattern::counts(Self) -> Array[Int]
-pub fn Pattern::pieces(Self) -> Int
-pub fn Pattern::remaining(Self) -> Int
-pub fn Pattern::stock_index(Self) -> Int
+pub fn Pattern::counts(Self) -> Array[Int32]
+pub fn Pattern::pieces(Self) -> Int32
+pub fn Pattern::remaining(Self) -> Int32
+pub fn Pattern::stock_index(Self) -> Int32
 pub fn Pattern::to_repr(Self) -> @debug.Repr
-pub fn Pattern::used(Self) -> Int
+pub fn Pattern::used(Self) -> Int32
 
 pub(all) struct PatternGroup {
   stock_id : String
-  counts : Array[Int]
-  repetitions : Int
-  remaining_each : Int
+  counts : Array[Int32]
+  repetitions : Int32
+  remaining_each : Int32
 } derive(@debug.Debug)
 pub fn PatternGroup::to_repr(Self) -> @debug.Repr
 
 pub struct PatternSet {
   entries : Array[Pattern]
   complete : Bool
-  visited : Int
+  visited : Int32
 } derive(@debug.Debug)
 pub fn PatternSet::complete(Self) -> Bool
 pub fn PatternSet::patterns(Self) -> Array[Pattern]
 pub fn PatternSet::to_repr(Self) -> @debug.Repr
-pub fn PatternSet::visited(Self) -> Int
+pub fn PatternSet::visited(Self) -> Int32
 
 pub struct Plan {
   bars : Array[Pattern]
 } derive(@debug.Debug)
-pub fn Plan::bar_count(Self) -> Int
+pub fn Plan::bar_count(Self) -> Int32
 pub fn Plan::bars(Self) -> Array[Pattern]
 pub fn Plan::to_repr(Self) -> @debug.Repr
 
 pub struct Problem {
   demands : Array[Demand]
   stocks : Array[Stock]
-  kerf : Int
-  min_remnant : Int
+  kerf : Int32
+  min_remnant : Int32
 } derive(@debug.Debug)
 pub fn Problem::demands(Self) -> Array[Demand]
-pub fn Problem::kerf(Self) -> Int
-pub fn Problem::min_remnant(Self) -> Int
+pub fn Problem::kerf(Self) -> Int32
+pub fn Problem::min_remnant(Self) -> Int32
 pub fn Problem::stocks(Self) -> Array[Stock]
 pub fn Problem::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Remnant {
-  source_bar : Int
+  source_bar : Int32
   source_stock : String
   material : String
-  length : Int
-  start : Int
-  end : Int
+  length : Int32
+  start : Int32
+  end : Int32
 } derive(Eq, @debug.Debug)
 pub fn Remnant::equal(Self, Self) -> Bool
 pub fn Remnant::not_equal(Self, Self) -> Bool
@@ -222,20 +222,20 @@ pub struct Solution {
   plan : Plan?
   pattern_complete : Bool
   search_complete : Bool
-  pattern_visits : Int
-  pattern_count : Int
-  work : Int
-  pruned : Int
+  pattern_visits : Int32
+  pattern_count : Int32
+  work : Int32
+  pruned : Int32
 } derive(@debug.Debug)
-pub fn Solution::dominated_states(Self) -> Int
+pub fn Solution::dominated_states(Self) -> Int32
 pub fn Solution::pattern_complete(Self) -> Bool
-pub fn Solution::pattern_count(Self) -> Int
-pub fn Solution::pattern_visits(Self) -> Int
+pub fn Solution::pattern_count(Self) -> Int32
+pub fn Solution::pattern_visits(Self) -> Int32
 pub fn Solution::plan(Self) -> Plan?
 pub fn Solution::search_complete(Self) -> Bool
 pub fn Solution::status(Self) -> Status
 pub fn Solution::to_repr(Self) -> @debug.Repr
-pub fn Solution::work(Self) -> Int
+pub fn Solution::work(Self) -> Int32
 
 pub(all) enum Status {
   Optimal
@@ -250,26 +250,26 @@ pub fn Status::to_repr(Self) -> @debug.Repr
 pub(all) struct Stock {
   id : String
   material : String
-  length : Int
-  cost : Int
-  quantity : Int
-  trim_start : Int
-  trim_end : Int
+  length : Int32
+  cost : Int32
+  quantity : Int32
+  trim_start : Int32
+  trim_end : Int32
 } derive(Eq, @debug.Debug)
 pub fn Stock::equal(Self, Self) -> Bool
 pub fn Stock::not_equal(Self, Self) -> Bool
 pub fn Stock::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Totals {
-  cost : Int
-  purchased : Int
-  useful : Int
-  kerf_loss : Int
-  trim_loss : Int
-  reusable : Int
-  scrap : Int
-  bars : Int
-  pieces : Int
+  cost : Int32
+  purchased : Int32
+  useful : Int32
+  kerf_loss : Int32
+  trim_loss : Int32
+  reusable : Int32
+  scrap : Int32
+  bars : Int32
+  pieces : Int32
 } derive(Eq, @debug.Debug)
 pub fn Totals::equal(Self, Self) -> Bool
 pub fn Totals::not_equal(Self, Self) -> Bool

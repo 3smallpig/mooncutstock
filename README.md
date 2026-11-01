@@ -2,21 +2,21 @@
 
 English | [简体中文](README.zh-CN.md)
 
-> Version 0.1.1 adds exact decimal-integer JSON validation, a complete Chinese guide, and archived-toolchain CI. See [CHANGELOG.md](CHANGELOG.md).
+> Version 0.1.2 pins moonc 0.10.18 for the acceptance requirement of moonc >= 0.10.16. Exact JSON integers, the Chinese guide and v1 schemas remain supported. See [CHANGELOG.md](CHANGELOG.md).
 
 A pure MoonBit **heterogeneous one-dimensional cutting-stock procurement planner**.
 Combine material-matched demands with finite or unlimited stock of different prices,
 lengths and end trims; obtain auditable cutting instructions, inventory usage and
 reusable remnants. No external runtime solver or third-party module is required.
 
-Module: `3smallpig/mooncutstock@0.1.1` · MIT · participant/account: `3smallpig`.
+Module: `3smallpig/mooncutstock@0.1.2` · MIT · participant/account: `3smallpig`.
 
 ## Install and integrate
 
 ```sh
 moon new shop
 cd shop
-moon add 3smallpig/mooncutstock@0.1.1
+moon add 3smallpig/mooncutstock@0.1.2
 ```
 
 Import `"3smallpig/mooncutstock" @cutstock` in your package's `moon.pkg`:
@@ -129,7 +129,7 @@ bash scripts/verify.sh wasm-gc
 
 CI checks `wasm-gc`, `wasm`, `js`, `native` on Linux with a digest-pinned official
 MoonBit snapshot. Initial development used the 20260920 development toolchain; release formatting
-and validation use moon 0.1.20261012 / moonc v0.10.15+943464bfa. Cross-target CI is the authoritative clean-runner evidence.
+and validation use moon 0.1.20261028 / moonc v0.10.18+6c83a7f62. Cross-target CI is the authoritative clean-runner evidence.
 32 test blocks include **160 deterministic independent exhaustive-oracle cases**,
 comparing the full objective and infeasibility; they are not 160 extra test blocks.
 There is no benchmark or formal verification claim.
